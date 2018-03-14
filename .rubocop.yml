@@ -1,0 +1,28 @@
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+Rails/HttpPositionalArguments:
+  Enabled: false
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+Rails/Presence:
+  Enabled: false
+
+# We should enable this later but there is currently a bug in rubocop which
+# breaks this
+# Rails/RequestReferer:
+#   EnforcedStyle: referrer
+#
+# Also only allow update_all because it's fast.
+# Rails/SkipsModelValidations:
+#   Blacklist:
+#     - decrement!
+#     - decrement_counter
+#     - increment_counter
+#     - toggle!
+#     - touch
+#     - update_attribute
+#     - update_column
+#     - update_columns
+#     - update_counters

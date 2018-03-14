@@ -1,3 +1,44 @@
+# Configuring Rubocop
+
+To setup Rubocop to use the most up to date configs for the current style
+guides:
+
+```yaml
+inherit_from:
+  - https://github.lc41.com/tyemill/ruby-style-guide/blob/master/.rubocop.yml
+  - https://github.lc41.com/tyemill/rails-style-guide/blob/master/.rubocop.yml
+```
+
+This method will cache those files locally and only update under
+[certain circumstances][rubocop-remote-url].
+
+
+To use a local version for testing new configs or because of network issues
+([pointing to the local paths for these files][rubocop-inheriting-configs]):
+
+```yaml
+inherit_from:
+  - ./src/ruby-style-guide/.rubocop.yml
+  - ./src/rails-style-guide/.rubocop.yml
+```
+
+Projects should set their target rails version in their own .rubocop.yml file:
+
+```yaml
+AllCops:
+  TargetRailsVersion: 5.0
+```
+
+Rails projects should enable rails cops by this to the .rubocop.yml:
+
+```yaml
+Rails:
+  Enabled: true
+```
+
+Projects can and should [include/exclude directories](https://rubocop.readthedocs.io/en/latest/configuration/#includingexcluding-files)
+
+
 # Prelude
 
 > Role models are important. <br/>
@@ -155,7 +196,7 @@ programming resources.
   ```
 
 * <a name="nested-routes"></a>
-  Use nested routes to express better the relationship between ActiveRecord
+  Consider using nested routes to express better the relationship between ActiveRecord
   models.
 <sup>[[link](#nested-routes)]</sup>
 
@@ -214,18 +255,21 @@ programming resources.
 ## Controllers
 
 * <a name="skinny-controllers"></a>
-  Keep the controllers skinny - they should only retrieve data for the view
+  Keep the controllers skinny - All classes should be skinny. Business logic
+  starts here.
+  ~~they should only retrieve data for the view
   layer and shouldn't contain any business logic (all the business logic
-  should naturally reside in the model).
+  should naturally reside in the model).~~
 <sup>[[link](#skinny-controllers)]</sup>
 
 * <a name="one-method"></a>
-  Each controller action should (ideally) invoke only one method other than an
-  initial find or new.
+  ~~Each controller action should (ideally) invoke only one method other than an
+  initial find or new.~~
 <sup>[[link](#one-method)]</sup>
 
 * <a name="shared-instance-variables"></a>
-  Share no more than two instance variables between a controller and a view.
+  Try to share no more than two instance variables between a controller and a
+  view.
 <sup>[[link](#shared-instance-variables)]</sup>
 
 
@@ -299,7 +343,7 @@ render status: :forbidden
 ## Models
 
 * <a name="model-classes"></a>
-  Introduce non-ActiveRecord model classes freely.
+  ~~Introduce non-ActiveRecord model classes freely.~~
 <sup>[[link](#model-classes)]</sup>
 
 * <a name="meaningful-model-names"></a>
@@ -307,9 +351,9 @@ render status: :forbidden
 <sup>[[link](#meaningful-model-names)]</sup>
 
 * <a name="activeattr-gem"></a>
-  If you need model objects that support ActiveRecord behavior (like validation)
+  ~~If you need model objects that support ActiveRecord behavior (like validation)
   without the ActiveRecord database functionality use the
-  [ActiveAttr](https://github.com/cgriego/active_attr) gem.
+  [ActiveAttr](https://github.com/cgriego/active_attr) gem.~~
 <sup>[[link](#activeattr-gem)]</sup>
 
   ```ruby
@@ -561,7 +605,8 @@ render status: :forbidden
   ```
 
 * <a name="user-friendly-urls"></a>
-  Use user-friendly URLs. Show some descriptive attribute of the model in the URL
+  Try to use user-friendly URLs(especially for public facing sites).
+  Show some descriptive attribute of the model in the URL
   rather than its `id`.  There is more than one way to achieve this:
 <sup>[[link](#user-friendly-urls)]</sup>
 
@@ -582,8 +627,8 @@ render status: :forbidden
   called on the string. The `id` of the object needs to be at the beginning so
   that it can be found by the `find` method of ActiveRecord.
 
-  * Use the `friendly_id` gem. It allows creation of human-readable URLs by
-    using some descriptive attribute of the model instead of its `id`.
+  * ~~Use the `friendly_id` gem. It allows creation of human-readable URLs by
+    using some descriptive attribute of the model instead of its `id`.~~
 
       ```ruby
       class Person
@@ -592,11 +637,12 @@ render status: :forbidden
       end
       ```
 
-  Check the [gem documentation](https://github.com/norman/friendly_id) for more
-  information about its usage.
+  ~~Check the [gem documentation](https://github.com/norman/friendly_id) for more
+  information about its usage.~~
 
 * <a name="find-each"></a>
-  Use `find_each` to iterate over a collection of AR objects. Looping through a
+  Consider using `find_each` to iterate over a collection of AR objects. Looping
+  through a
   collection of records from the database (using the `all` method, for example)
   is very inefficient since it will try to instantiate all the objects at once.
   In that case, batch processing methods allow you to work with the records in
@@ -651,7 +697,8 @@ render status: :forbidden
   ```
 
 * <a name="has_many-has_one-dependent-option"></a>
-  Define the `dependent` option to the `has_many` and `has_one` associations.
+  Define the `dependent` option to the `has_many` and `has_one` associations if
+  it is a parent child relationship.
 <sup>[[link](#has_many-has_one-dependent-option)]</sup>
 
   ```ruby
@@ -809,12 +856,14 @@ when you need to retrieve a single record by some attributes.
 
 * <a name="db-schema-load"></a>
   Use `rake db:schema:load` instead of `rake db:migrate` to initialize an empty
-  database.
+  database, it's faster.
 <sup>[[link](#db-schema-load)]</sup>
 
 * <a name="default-migration-values"></a>
-  Enforce default values in the migrations themselves instead of in the
-  application layer.
+  ~~Enforce default values in the migrations themselves instead of in the
+  application layer.~~
+  Enforce defaults in the application layer. If missing a default value will
+  fubar a record though make sure to provide a DB level default as well.
 <sup>[[link](#default-migration-values)]</sup>
 
   ```ruby
@@ -835,10 +884,13 @@ when you need to retrieve a single record by some attributes.
 
   While enforcing table defaults only in Rails is suggested by many
   Rails developers, it's an extremely brittle approach that
-  leaves your data vulnerable to many application bugs.  And you'll
+  leaves your data vulnerable to many application bugs. ~~And you'll
   have to consider the fact that most non-trivial apps share a
   database with other applications, so imposing data integrity from
-  the Rails app is impossible.
+  the Rails app is impossible.~~
+
+* ZH NOTE foreign keys are awesome we should talk about this because we don't do
+this currently.
 
 * <a name="foreign-key-constraints"></a>
   Enforce foreign-key constraints. As of Rails 4.2, ActiveRecord
@@ -930,8 +982,8 @@ when you need to retrieve a single record by some attributes.
   ```
 
 * <a name="meaningful-foreign-key-naming"></a>
-  Name your foreign keys explicitly instead of relying on Rails auto-generated
-  FK names. (http://guides.rubyonrails.org/active_record_migrations.html#foreign-keys)
+  ~~Name your foreign keys explicitly instead of relying on Rails auto-generated
+  FK names. (http://guides.rubyonrails.org/active_record_migrations.html#foreign-keys)~~
 <sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
   ```ruby
@@ -1004,7 +1056,7 @@ when you need to retrieve a single record by some attributes.
   Mitigate code duplication by using partial templates and layouts.
 <sup>[[link](#partials)]</sup>
 
-## Internationalization
+## Internationalization -- We don't support this but we should
 
 * <a name="locale-texts"></a>
   No strings or other locale specific settings should be used in the views,
