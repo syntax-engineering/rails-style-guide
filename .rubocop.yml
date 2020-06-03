@@ -8,7 +8,8 @@ Rails/LexicallyScopedActionFilter:
   Enabled: false
 Rails/Presence:
   Enabled: false
-
+Rails/FilePath:
+  EnforcedStyle: arguments
 # We should enable this later but there is currently a bug in rubocop which
 # breaks this
 # Rails/RequestReferer:
