@@ -13,9 +13,6 @@ Rails/FilePath:
   EnforcedStyle: arguments
 Rails/RequestReferer:
   EnforcedStyle: referrer
-# Rails generators break this rule out of the box
-Style/ClassAndModuleChildren:
-  Enabled: false
 # these paths are self explanatory in a Rails context and do not class comments
 Style/Documentation:
   Exclude:
@@ -38,19 +35,5 @@ Layout/ExtraSpacing:
 Layout/CommentIndentation:
   Exclude:
     - 'Gemfile'
-
-# Also only allow update_all because it's fast.
-# Rails/SkipsModelValidations:
-#   Blacklist:
-#     - decrement!
-#     - decrement_counter
-#     - increment_counter
-#     - toggle!
-#     - touch
-#     - update_attribute
-#     - update_column
-#     - update_columns
-#     - update_counters
-
 require:
   - rubocop-rails
