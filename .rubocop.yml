@@ -1,20 +1,44 @@
 Rails/CreateTableWithTimestamps:
   Enabled: false
 Rails/HasManyOrHasOneDependent:
-  Enabled: false
+  Enabled: true
+# if a codebase is on an older version on rails override this in the local rubocop.yml
 Rails/HttpPositionalArguments:
-  Enabled: false
+  Enabled: true
 Rails/LexicallyScopedActionFilter:
   Enabled: false
 Rails/Presence:
-  Enabled: false
+  Enabled: true
 Rails/FilePath:
   EnforcedStyle: arguments
-# We should enable this later but there is currently a bug in rubocop which
-# breaks this
-# Rails/RequestReferer:
-#   EnforcedStyle: referrer
-#
+Rails/RequestReferer:
+  EnforcedStyle: referrer
+# Rails generators break this rule out of the box
+Style/ClassAndModuleChildren:
+  Enabled: false
+# these paths are self explanatory in a Rails context and do not class comments
+Style/Documentation:
+  Exclude:
+    - 'db/migrate/*'
+    - 'test/**/*'
+    - 'config/application.rb'
+    - 'app/policies/*_policy.rb'
+    - 'app/helpers/*.rb'
+# migrations being a dsl should not worry about method length
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+# environments being a dsl should not worry about block length
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/*.rb'
+Layout/ExtraSpacing:
+  Exclude:
+    - 'Gemfile'
+Layout/CommentIndentation:
+  Exclude:
+    - 'Gemfile'
+
 # Also only allow update_all because it's fast.
 # Rails/SkipsModelValidations:
 #   Blacklist:
