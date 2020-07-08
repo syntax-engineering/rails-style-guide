@@ -25,10 +25,15 @@ Style/Documentation:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
-# environments being a dsl should not worry about block length
+# environments and migrations being a dsl should not worry about block length
 Metrics/BlockLength:
   Exclude:
     - 'config/environments/*.rb'
+    - 'db/migrate/*'
+# migrations commonly exceed ABC size
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
 Layout/ExtraSpacing:
   Exclude:
     - 'Gemfile'
