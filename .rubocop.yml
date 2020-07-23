@@ -30,6 +30,7 @@ Metrics/BlockLength:
   Exclude:
     - 'config/environments/*.rb'
     - 'db/migrate/*'
+    - 'test/**/*_test.rb'
 # migrations commonly exceed ABC size
 Metrics/AbcSize:
   Exclude:
