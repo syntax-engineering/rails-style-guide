@@ -5,8 +5,8 @@ guides:
 
 ```yaml
 inherit_from:
-  - https://raw.githubusercontent.com/tyemill/ruby-style-guide/master/.rubocop.yml
-  - https://raw.githubusercontent.com/tyemill/rails-style-guide/master/.rubocop.yml
+  - https://raw.githubusercontent.com/syntax-engineering/ruby-style-guide/master/.rubocop.yml
+  - https://raw.githubusercontent.com/syntax-engineering/rails-style-guide/master/.rubocop.yml
 ```
 
 This method will cache those files locally and only update under

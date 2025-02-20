@@ -40,5 +40,5 @@ Layout/ExtraSpacing:
 Layout/CommentIndentation:
   Exclude:
     - 'Gemfile'
-require:
+plugins:
   - rubocop-rails
