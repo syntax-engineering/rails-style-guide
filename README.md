@@ -4,6 +4,8 @@ To setup Rubocop to use the most up to date configs for the current style
 guides:
 
 ```yaml
+plugins:
+  - rubocop-rails
 inherit_from:
   - https://raw.githubusercontent.com/syntax-engineering/ruby-style-guide/master/.rubocop.yml
   - https://raw.githubusercontent.com/syntax-engineering/rails-style-guide/master/.rubocop.yml
@@ -17,6 +19,8 @@ To use a local version for testing new configs or because of network issues
 ([pointing to the local paths for these files][rubocop-inheriting-configs]):
 
 ```yaml
+plugins:
+  - rubocop-rails
 inherit_from:
   - ./src/ruby-style-guide/.rubocop.yml
   - ./src/rails-style-guide/.rubocop.yml
